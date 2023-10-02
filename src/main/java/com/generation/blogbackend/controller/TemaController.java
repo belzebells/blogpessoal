@@ -28,7 +28,6 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 
 public class TemaController {
-
 	@Autowired
 	private TemaRepository temaRepository;
 	

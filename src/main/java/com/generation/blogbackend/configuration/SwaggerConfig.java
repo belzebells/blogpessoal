@@ -15,7 +15,6 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 @Configuration
 
 public class SwaggerConfig {
-
 	@Bean
 	OpenAPI SpringBlogPessoalOpenAPI() {
 		return new OpenAPI()

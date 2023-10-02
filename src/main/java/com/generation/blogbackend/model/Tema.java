@@ -18,7 +18,6 @@ import jakarta.validation.constraints.NotNull;
 @Table (name = "tb_temas")
 
 public class Tema {
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;

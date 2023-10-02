@@ -21,7 +21,6 @@ import com.generation.blogbackend.security.JwtService;
 
 @Service
 public class UsuarioService {
-
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
