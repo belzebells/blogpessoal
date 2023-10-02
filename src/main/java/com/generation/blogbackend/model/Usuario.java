@@ -25,7 +25,6 @@ public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	
 	private Long id;
 	
 	@NotBlank(message="o atributo nome é obrigatório!")

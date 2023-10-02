@@ -1,7 +1,6 @@
 package com.generation.blogbackend.model;
 
 public class UsuarioLogin {
-
 	private Long id;
 	private String nome;
 	private String usuario;
