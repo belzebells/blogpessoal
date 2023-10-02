@@ -1,4 +1,5 @@
 package com.generation.blogbackend.security;
+
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,60 +23,47 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
+/*A Classe JwtAuthFilter é o que chamamos no Spring Security de Filtro de Servlet Personalizado (Custom Servlet Filter), que em nossa implementação, 
+ *foi criado para interceptar e validar o Token JWT em toda e qualquer Requisição HTTP.*/	
+	
 	@Autowired
 	private JwtService jwtService;
 	
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
-	
+
 	@Override
-	protected void doFilterInternal(HttpServletRequest request,
-			HttpServletResponse response, FilterChain filterchain)
-				throws ServletException, IOException {
-		String authHeader = request.getHeader("authorization");
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		String authHeader = request.getHeader("Authorization");
 		String token = null;
 		String username = null;
 		
-	
 		try {
-			if (authHeader != null && authHeader.startsWith("Bearer ")) {
+			if(authHeader != null && authHeader.startsWith("Bearer ")) {
 				token = authHeader.substring(7);
 				username = jwtService.extractUsername(token);
 			}
-			
-			if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+			if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 				
-				if(jwtService.validateToken(token, userDetails)) {
+				if (jwtService.validateToken(token, userDetails)) {
 					UsernamePasswordAuthenticationToken authToken = 
 							new UsernamePasswordAuthenticationToken(userDetails, null,
 									userDetails.getAuthorities());
 					
 					authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(authToken);
-			    }
-	            
-            }
-            filterchain.doFilter(request, response);
-
-        }catch(ExpiredJwtException | UnsupportedJwtException | MalformedJwtException 
+				}
+				
+			}	
+			filterChain.doFilter(request, response);	
+				
+				
+		}catch(ExpiredJwtException | UnsupportedJwtException | MalformedJwtException 
                 | SignatureException | ResponseStatusException e){
             response.setStatus(HttpStatus.FORBIDDEN.value());
             return;
-        }
-    }
+		}
+	}
 }
-		
-		
-		
-			
-					
-				
-			
-		
-	
-
-
-
-	
-

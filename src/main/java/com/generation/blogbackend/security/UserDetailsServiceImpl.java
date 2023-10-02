@@ -13,19 +13,20 @@ import org.springframework.web.server.ResponseStatusException;
 import com.generation.blogbackend.model.Usuario;
 import com.generation.blogbackend.repository.UsuarioRepository;
 
-
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+/*A Classe UserDetailsServiceImpl é uma implementação da Interface UserDetailsService, responsável por validar a existência de um usuário no sistema 
+ *através do Banco de dados e retornar um Objeto da Classe UserDetailsImpl, com os dados do Objeto encontrado no Banco de dados.*/	
+	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		Optional<Usuario> usuario = usuarioRepository.findByUsuario(userName);
-		if (usuario.isPresent())
+		if(usuario.isPresent())
 			return new UserDetailsImpl(usuario.get());
 		else
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-}
+	}
 }
